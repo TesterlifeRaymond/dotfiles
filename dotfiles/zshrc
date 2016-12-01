@@ -3,12 +3,12 @@ export ZSH=$HOME/.dotfiles/oh-my-zsh
 
 ZSH_THEME="cloud"
 
-plugins=(git vi-mode)
+plugins=(git archlinux)
 
 source $ZSH/oh-my-zsh.sh
 
 # set escape key to jk
-bindkey -M viins 'jk' vi-cmd-mode
+# bindkey -M viins 'jk' vi-cmd-mode
 
 # ======================== ALIAS ========================
 alias reload="source $HOME/.zshrc"
