@@ -17,3 +17,10 @@ alias reload="source $HOME/.zshrc"
 alias gs="git status"
 alias ga="git add"
 alias gm="git commit -m"
+
+# tmux
+alias tns="tmux new -s"
+alias tls="tmux ls"
+alias ta="tmux attach"
+alias tt="tmux attach -t"
+alias tks="tmux kill-sesion -t"
