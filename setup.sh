@@ -11,6 +11,8 @@ purple='\033[0;35m'
 light_purple='\033[1;35m'  
 yellow='\033[0;33m'  
 light_yellow='\033[1;33m'  
+red='\033[0;31m'  
+light_red='\033[1;31m'  
 end='\033[0m'  
 
 echo -e $purple"AUTHOR: "$end$light_purple"Cano"$end
@@ -43,16 +45,20 @@ then
 fi
 
 # setup symlink
-echo -e $cyan"Setup Symlinks: "$end
 if [ -d $DOTFILES_HOME'/dotfiles' ]
 then
 	for file in $DOTFILES_HOME/dotfiles/*
 	do
-		echo -e $light_cyan"        \c"
 
 		target='.'$(basename $file)
-		ln -fs $file $target
-		echo -e $HOME'/'$target$end
+		if [ ! -L $target -o ! -r $target ]
+		then
+			ln -fs $file $target
+			echo -e $cyan"Setup Symlinks: "$end$light_cyan$HOME'/'$target$end
+		else
+			echo -e $red"Skip File:"$end$light_red$HOME'/'$target$end"\c"
+			echo -e "\033[1m (You may need to link it manually)\033[0m"
+		fi
 	done
 fi
 
