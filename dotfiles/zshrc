@@ -1,5 +1,6 @@
 # Oh-My-Zsh
-export ZSH=$HOME/.dotfiles/oh-my-zsh
+export DOTFILES_HOME=$HOME/.dotfiles
+export ZSH=$DOTFILES_HOME/oh-my-zsh
 
 ZSH_THEME="cloud"
 
@@ -7,10 +8,19 @@ plugins=(git archlinux)
 
 source $ZSH/oh-my-zsh.sh
 
+# ================= PERSONAL CONFIG ====================
+
 # set escape key to jk
 # bindkey -M viins 'jk' vi-cmd-mode
 
-# ======================== ALIAS ========================
+# automatic launch tmux when startup terminal
+if [[ "$TERM" != "screen-256color" ]]
+then
+	tmux attach-session -t "$USER" || tmux new-session -s "$USER"
+	exit
+fi
+
+# ====================== ALIAS =========================
 alias reload="source $HOME/.zshrc"
 
 # git

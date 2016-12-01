@@ -24,12 +24,21 @@ echo -e $blue"DOTFILES_PATH: "$end$light_blue$DOTFILES_HOME$end
 cd $HOME
 
 # oh-my-zsh
-OH_MY_ZSH=$HOME'/.dotfiles/oh-my-zsh'
+OH_MY_ZSH=$DOTFILES_HOME'/oh-my-zsh'
 if [ ! -d $OH_MY_ZSH ]
 then
 
 	echo -e ${yellow}"Installing Oh-My-Zsh..."
 	git clone https://github.com/robbyrussell/oh-my-zsh.git $OH_MY_ZSH
+	echo -e ${end}${light_yellow}"Done!"${end}
+fi
+
+# tmux plugin manager
+TPM=$DOTFILES_HOME'/tpm'
+if [ ! -d $TPM ]
+then
+	echo -e ${yellow}"Installing Tmux Plugin Manager..."
+	git clone https://github.com/tmux-plugins/tpm $TPM
 	echo -e ${end}${light_yellow}"Done!"${end}
 fi
 
@@ -43,9 +52,7 @@ then
 
 		target='.'$(basename $file)
 		ln -fs $file $target
-		echo $HOME'/'$target
-
-		echo -e $end
+		echo -e $HOME'/'$target$end
 	done
 fi
 
