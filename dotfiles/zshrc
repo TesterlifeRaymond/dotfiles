@@ -23,13 +23,6 @@ fi
 # ====================== ALIAS =========================
 alias reload="source $HOME/.zshrc"
 
-# systemd
-sc="sudo systemctl"
-scs="sudo systemctl start"
-sct="sudo systemctl stop"
-sce="sudo systemctl sce"
-scd="sudo systemctl scd"
-
 # git
 alias gs="git status"
 alias ga="git add"
