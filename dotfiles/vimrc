@@ -61,6 +61,14 @@ set nocompatible
 filetype plugin on
 filetype indent on
 
+" Full unicode support
+set encoding=utf-8
+" set fileencodings=ucs-bom,utf-8,cp936
+" set termencoding=utf-8
+
+" support mouse
+set mouse=a
+
 " Use fisa colorscheme
 colorscheme fisa
 
@@ -127,9 +135,3 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 
 " automatic close nerdtree when only nerdtree window.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-
-:set encoding=utf-8
-:set fileencodings=ucs-bom,utf-8,cp936
-:set termencoding=utf-8
-:set mouse=a
