@@ -47,6 +47,8 @@ Plug 'bfredl/nvim-ipy', {'for': 'python'}
 
 " Syntax Checker
 Plug 'neomake/neomake'
+" vim-go
+Plug 'fatih/vim-go'
 
 " command fuzzy finder
 Plug 'fisadev/vim-ctrlp-cmdpalette'
@@ -152,9 +154,6 @@ function! SetMouse()
         echo "mouse on"
     endif
 endfunction
-map <C-x> :call SetMouse() <CR>
-nmap <C-k> gT <CR>
-nmap <C-g> :Gitv <CR>
 " general
 nnoremap <silent> <leader>gq :xa<CR>
 nnoremap <silent> <leader>ge :edit $MYVIMRC<CR>
@@ -195,11 +194,16 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Jedi
-let s:assist_leader = ","
 
-let g:jedi#goto_command = s:assist_leader."g"
-let g:jedi#documentation_command = s:assist_leader."d"
-let g:jedi#usages_command = s:assist_leader."n"
+nmap <C-t> :call jedi#goto()<CR>
+nmap <C-e> :call jedi#show_documentation() <CR>
+nmap <C-n> :call jedi#usages()<CR>
+
+" quick key
+
+map <C-x> :call SetMouse() <CR>
+nmap <C-k> :gT <CR>
+nmap <C-g> :Gitv <CR>
 
 " PEP8
 
