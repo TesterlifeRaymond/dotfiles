@@ -15,10 +15,10 @@ red='\033[0;31m'
 light_red='\033[1;31m'  
 end='\033[0m'  
 
-echo -e $purple"AUTHOR: "$end$light_purple"Cano"$end
-echo -e $purple"EMAIL: "$end$light_purple"gcanoxl@gmail.com"$end
-echo -e $purple"WEBSITE: "$end$light_purple"http://cano.xyz/"$end
-echo -e $purple"GITHUB: "$end$light_purple"https://github.com/gcanoxl/"$end
+echo -e $purple"AUTHOR: "$end$light_purple"liujinjia"$end
+echo -e $purple"EMAIL: "$end$light_purple"liujinjia@testerlife.com"$end
+echo -e $purple"WEBSITE: "$end$light_purple"http://testerlife.com/"$end
+echo -e $purple"GITHUB: "$end$light_purple"https://github.com/TesterlifeRaymond/"$end
 
 DOTFILES_HOME=$(cd "$(dirname "$0")"; pwd)
 echo -e $blue"DOTFILES_PATH: "$end$light_blue$DOTFILES_HOME$end
@@ -32,15 +32,6 @@ then
 
 	echo -e ${yellow}"Installing Oh-My-Zsh..."
 	git clone https://github.com/robbyrussell/oh-my-zsh.git $OH_MY_ZSH
-	echo -e ${end}${light_yellow}"Done!"${end}
-fi
-
-# tmux plugin manager
-TPM=$DOTFILES_HOME'/tpm'
-if [ ! -d $TPM ]
-then
-	echo -e ${yellow}"Installing Tmux Plugin Manager..."
-	git clone https://github.com/tmux-plugins/tpm $TPM
 	echo -e ${end}${light_yellow}"Done!"${end}
 fi
 

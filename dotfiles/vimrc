@@ -30,6 +30,7 @@ call plug#begin(s:vim_plugged_path)
 
 " code browser
 Plug 'majutsushi/tagbar'
+Plug 'mattn/emmet-vim'
 
 " file tree browser
 Plug 'scrooloose/nerdtree'
@@ -45,17 +46,28 @@ Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'bfredl/nvim-ipy', {'for': 'python'}
 
 " Syntax Checker
-Plug 'vim-syntastic/syntastic'
+Plug 'neomake/neomake'
 
 " command fuzzy finder
 Plug 'fisadev/vim-ctrlp-cmdpalette'
-
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 " colorscheme
 Plug 'fisadev/fisa-vim-colorscheme'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
+Plug 'morhetz/gruvbox'
 
+" other
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-surround'
+Plug 'gregsexton/gitv', {'on': ['Gitv']}
+Plug 'mhinz/vim-startify'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 
 " Automatic installation.
@@ -84,15 +96,14 @@ filetype indent on
 set t_Co=256
 syntax enable
 set background=dark
-colorscheme solarized
+colorscheme gruvbox
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='bubblegum'
+let g:airline_theme='gruvbox'
 
 " Show line numbers
-" set nu
-
+let g:neomake_python_enabled_makers = ['python', 'flake8'] 
 " Keep 3 lines when scrolling
 set scrolloff=8
 
@@ -125,7 +136,8 @@ inoremap jk <ESC>
 
 " better command
 nnoremap <silent> <leader><leader> :CtrlPCmdPalette<CR>
-
+nnoremap <silent> <leader>vs :vs<CR>
+  
 " mouse
 set mouse=a
 let mouseFlag =1
@@ -140,12 +152,14 @@ function! SetMouse()
         echo "mouse on"
     endif
 endfunction
-map <C-k> :call SetMouse() <CR>
-
+map <C-x> :call SetMouse() <CR>
+nmap <C-k> gT <CR>
+nmap <C-g> :Gitv <CR>
 " general
 nnoremap <silent> <leader>gq :xa<CR>
 nnoremap <silent> <leader>ge :edit $MYVIMRC<CR>
 nnoremap <silent> <leader>gr :source $MYVIMRC<CR>
+nnoremap <silent> <leader>q :q! <CR>
 
 " file
 nnoremap <silent> <leader>fs :w<CR>
@@ -154,6 +168,9 @@ nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 
 " buffer
 nnoremap <silent> <leader>bf :CtrlPBuffer<CR>
+nnoremap <silent> <leader>rn :%!python3 %<CR>
+nnoremap <silent> <leader>jf :%!python3 -m json.tool<CR>
+nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 " window
 nnoremap <C-h> <C-w><C-h>
@@ -161,7 +178,7 @@ nnoremap <C-j> <C-w><C-j>
 " nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
 nnoremap <C-c> <C-w><C-c>
-nnoremap <C-o> <C-w><C-o>
+" nnoremap <C-o> <C-w><C-o>
 
 " code
 nnoremap <silent> <leader>cb :TagbarToggle<CR>
@@ -184,12 +201,36 @@ let g:jedi#goto_command = s:assist_leader."g"
 let g:jedi#documentation_command = s:assist_leader."d"
 let g:jedi#usages_command = s:assist_leader."n"
 
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" PEP8
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set textwidth=99
+set expandtab
+set autoindent
+" set fileformat=unix
+" When writing a buffer.
+call neomake#configure#automake('w')
+" When writing a buffer, and on normal mode changes (after 750ms).
+call neomake#configure#automake('nw', 750)
+" When reading a buffer (after 1s), and when writing.
+call neomake#configure#automake('rw', 1000)
+set guioptions-=r " 隐藏右侧滚动条
+set guioptions-=b " 隐藏底部滚动条
+set guioptions-=L " 隐藏左侧滚动条
+set guifont=monaco:h13
+set clipboard=unnamed
+set nohlsearch
+set backspace=indent,eol,start
+set nowrap
+hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
+set nu
+set encoding=utf-8
+set langmenu=zh_CN.UTF-8
+"let g:indentLine_setColors = 0
+language message zh_CN.UTF-8
+"let g:indentLine_color_term = 239
+set runtimepath^=~/.vim/plugged/ag
+set noeb
+set vb t_vb=

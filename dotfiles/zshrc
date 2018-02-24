@@ -4,8 +4,6 @@ export ZSH=$DOTFILES_HOME/oh-my-zsh
 
 ZSH_THEME="cloud"
 
-plugins=(git archlinux)
-
 source $ZSH/oh-my-zsh.sh
 
 # ================= PERSONAL CONFIG ====================
@@ -14,12 +12,6 @@ source $ZSH/oh-my-zsh.sh
 # bindkey -M viins 'jk' vi-cmd-mode
 
 # automatic launch tmux when startup terminal
-if [[ "$TERM" != "screen-256color" ]]
-then
-	tmux attach-session -t "$USER" || tmux new-session -s "$USER"
-	exit
-fi
-
 # ====================== ALIAS =========================
 alias reload="source $HOME/.zshrc"
 
@@ -28,9 +20,3 @@ alias gs="git status"
 alias ga="git add"
 alias gm="git commit -m"
 
-# tmux
-alias tns="tmux new -s"
-alias tls="tmux ls"
-alias ta="tmux attach"
-alias tt="tmux attach -t"
-alias tks="tmux kill-sesion -t"
