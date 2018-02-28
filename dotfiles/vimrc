@@ -49,19 +49,25 @@ Plug 'bfredl/nvim-ipy', {'for': 'python'}
 Plug 'neomake/neomake'
 " vim-go
 Plug 'fatih/vim-go'
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+
+" gist-vim
+Plug 'lambdalisue/vim-gista'
 
 " command fuzzy finder
 Plug 'fisadev/vim-ctrlp-cmdpalette'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " colorscheme
-Plug 'fisadev/fisa-vim-colorscheme'
 Plug 'vim-airline/vim-airline'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'morhetz/gruvbox'
 
 " other
+Plug 'davidoc/taskpaper.vim'
+Plug 'vim-scripts/todo-vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
@@ -96,9 +102,11 @@ filetype indent on
 
 " Use fisa colorscheme
 set t_Co=256
+set termguicolors
 syntax enable
 set background=dark
 colorscheme gruvbox
+hi Comment cterm=italic
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -135,6 +143,7 @@ let mapleader=' '
 
 " set escape to jk
 inoremap jk <ESC>
+nmap <C-]> :TODOToggle<CR>
 
 " better command
 nnoremap <silent> <leader><leader> :CtrlPCmdPalette<CR>
@@ -174,7 +183,7 @@ nnoremap <silent> <leader>tg :TagbarToggle<CR>
 " window
 nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
-" nnoremap <C-k> <C-w><C-k>
+nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
 nnoremap <C-c> <C-w><C-c>
 " nnoremap <C-o> <C-w><C-o>
@@ -202,7 +211,6 @@ nmap <C-n> :call jedi#usages()<CR>
 " quick key
 
 map <C-x> :call SetMouse() <CR>
-nmap <C-k> :gT <CR>
 nmap <C-g> :Gitv <CR>
 
 " PEP8
@@ -238,3 +246,6 @@ language message zh_CN.UTF-8
 set runtimepath^=~/.vim/plugged/ag
 set noeb
 set vb t_vb=
+hi Normal     ctermbg=NONE guibg=NONE
+hi LineNr     ctermbg=NONE guibg=NONE
+hi SignColumn ctermbg=NONE guibg=NONE
