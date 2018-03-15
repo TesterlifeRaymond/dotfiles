@@ -1,3 +1,4 @@
+"j
 " Cano's Vim Config Author: Cano
 " Email: gcanoxl@gmail.com
 "
@@ -102,7 +103,7 @@ filetype indent on
 
 " Use fisa colorscheme
 set t_Co=256
-set termguicolors
+"set termguicolors
 syntax enable
 set background=dark
 colorscheme gruvbox
@@ -148,7 +149,7 @@ nmap <C-]> :TODOToggle<CR>
 " better command
 nnoremap <silent> <leader><leader> :CtrlPCmdPalette<CR>
 nnoremap <silent> <leader>vs :vs<CR>
-  
+
 " mouse
 set mouse=a
 let mouseFlag =1
@@ -231,7 +232,7 @@ call neomake#configure#automake('rw', 1000)
 set guioptions-=r " 隐藏右侧滚动条
 set guioptions-=b " 隐藏底部滚动条
 set guioptions-=L " 隐藏左侧滚动条
-set guifont=monaco:h13
+set guifont=Source\ Code\ Pro\ Medium\ italic:h14
 set clipboard=unnamed
 set nohlsearch
 set backspace=indent,eol,start
@@ -242,10 +243,12 @@ set encoding=utf-8
 set langmenu=zh_CN.UTF-8
 "let g:indentLine_setColors = 0
 language message zh_CN.UTF-8
-"let g:indentLine_color_term = 239
+let g:indentLine_color_term = 239
 set runtimepath^=~/.vim/plugged/ag
 set noeb
 set vb t_vb=
-hi Normal     ctermbg=NONE guibg=NONE
-hi LineNr     ctermbg=NONE guibg=NONE
-hi SignColumn ctermbg=NONE guibg=NONE
+"hi Normal     ctermbg=NONE guibg=NONE
+"hi LineNr     ctermbg=NONE guibg=NONE
+"hi SignColumn ctermbg=NONE guibg=NONE
+let g:go_version_warning = 0
+let g:SuperTabDefaultCompletionType = "<c-n>"
