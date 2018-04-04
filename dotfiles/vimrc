@@ -66,6 +66,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
 Plug 'morhetz/gruvbox'
 
+" java
+Plug 'artur-shaik/vim-javacomplete2'
+
 " other
 Plug 'davidoc/taskpaper.vim'
 Plug 'vim-scripts/todo-vim'
@@ -169,6 +172,7 @@ nnoremap <silent> <leader>gq :xa<CR>
 nnoremap <silent> <leader>ge :edit $MYVIMRC<CR>
 nnoremap <silent> <leader>gr :source $MYVIMRC<CR>
 nnoremap <silent> <leader>q :q! <CR>
+nnoremap <silent> <leader>rn :!python3 % <CR>
 
 " file
 nnoremap <silent> <leader>fs :w<CR>
@@ -177,8 +181,8 @@ nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 
 " buffer
 nnoremap <silent> <leader>bf :CtrlPBuffer<CR>
-nnoremap <silent> <leader>rn :%!python3 %<CR>
 nnoremap <silent> <leader>jf :%!python3 -m json.tool<CR>
+nnoremap <silent> <leader>pdb :!python3 -m pdb %
 nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 " window
@@ -191,8 +195,9 @@ nnoremap <C-c> <C-w><C-c>
 
 " code
 nnoremap <silent> <leader>cb :TagbarToggle<CR>
-
-" }
+nnoremap <silent> <leader>jts :JavaComplete-Generate-ToString<CR>
+nnoremap <silent> <leader>gas :JCgenerateAccessorSetter<CR>
+nnoremap <silent> <leader>gam :JCgenerateAbtractMethods <CR>
 
 " NERDTree
 
@@ -208,7 +213,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 nmap <C-t> :call jedi#goto()<CR>
 nmap <C-e> :call jedi#show_documentation() <CR>
 nmap <C-n> :call jedi#usages()<CR>
-
 " quick key
 
 map <C-x> :call SetMouse() <CR>
@@ -252,3 +256,39 @@ set vb t_vb=
 "hi SignColumn ctermbg=NONE guibg=NONE
 let g:go_version_warning = 0
 let g:SuperTabDefaultCompletionType = "<c-n>"
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
+" java complete2 default map
+nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
+nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused)
+nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart)
+nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
+
+imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
+imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
+imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
+
+nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
+nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
+nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
+nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
+nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
+
+imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
+imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
+imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
+nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
