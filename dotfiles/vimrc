@@ -193,6 +193,10 @@ nnoremap <C-l> <C-w><C-l>
 nnoremap <C-c> <C-w><C-c>
 " nnoremap <C-o> <C-w><C-o>
 
+if has("gui_running")
+    set transparency=10
+endif
+
 " code
 nnoremap <silent> <leader>cb :TagbarToggle<CR>
 nnoremap <silent> <leader>jts :JavaComplete-Generate-ToString<CR>
