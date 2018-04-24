@@ -1,4 +1,3 @@
-"j
 " Cano's Vim Config Author: Cano
 " Email: gcanoxl@gmail.com
 "
@@ -10,6 +9,8 @@
 
 " Enviroment initialization (compatible with neovim)
 let g:VIM_HOME = expand('~/.vim')
+
+
 if has('nvim')
     let g:VIM_HOME = expand('~/.config/nvim')
 endif
@@ -37,12 +38,9 @@ Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" fuzzy finder
-Plug 'ctrlpvim/ctrlp.vim'
-
 " python code completion
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
-
+Plug 'Valloric/YouCompleteMe'
 " ipython for nvim
 Plug 'bfredl/nvim-ipy', {'for': 'python'}
 
@@ -56,11 +54,16 @@ Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' 
 Plug 'lambdalisue/vim-gista'
 
 " command fuzzy finder
-Plug 'fisadev/vim-ctrlp-cmdpalette'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " colorscheme
+Plug 'nightsense/office'
+Plug 'ayu-theme/ayu-vim' " or other package manager
+Plug 'hzchirs/vim-material'
+Plug 'nightsense/nemo'
 Plug 'vim-airline/vim-airline'
+Plug 'nightsense/forgotten'
+Plug 'ajmwagar/vim-deus'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
@@ -70,6 +73,7 @@ Plug 'morhetz/gruvbox'
 Plug 'artur-shaik/vim-javacomplete2'
 
 " other
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'davidoc/taskpaper.vim'
 Plug 'vim-scripts/todo-vim'
 Plug 'godlygeek/tabular'
@@ -106,15 +110,28 @@ filetype indent on
 
 " Use fisa colorscheme
 set t_Co=256
-"set termguicolors
 syntax enable
+"set background=dark
 set background=dark
-colorscheme gruvbox
+"colorscheme vim-material
 hi Comment cterm=italic
+
+" Ayu
+set termguicolors     " enable true colors support
+let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
+
+"" gui transparent
+if has("gui_running")
+    set shellcmdflag=-ic
+    set transparency=10
+endif
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='gruvbox'
+let g:airline_theme='material'
 
 " Show line numbers
 let g:neomake_python_enabled_makers = ['python', 'flake8'] 
@@ -145,14 +162,6 @@ autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4
 " Key Mappings {
 let mapleader=' '
 
-" set escape to jk
-inoremap jk <ESC>
-nmap <C-]> :TODOToggle<CR>
-
-" better command
-nnoremap <silent> <leader><leader> :CtrlPCmdPalette<CR>
-nnoremap <silent> <leader>vs :vs<CR>
-
 " mouse
 set mouse=a
 let mouseFlag =1
@@ -167,20 +176,25 @@ function! SetMouse()
         echo "mouse on"
     endif
 endfunction
+
+" set escape to jk
+inoremap jk <ESC>
+nmap <C-]> :TODOToggle<CR>
+nmap <C-r> :!python3 %<CR>
+" better command
+nnoremap <silent> <leader>vs :vs<CR>
+
 " general
 nnoremap <silent> <leader>gq :xa<CR>
 nnoremap <silent> <leader>ge :edit $MYVIMRC<CR>
 nnoremap <silent> <leader>gr :source $MYVIMRC<CR>
 nnoremap <silent> <leader>q :q! <CR>
-nnoremap <silent> <leader>rn :!python3 % <CR>
 
 " file
 nnoremap <silent> <leader>fs :w<CR>
-nnoremap <silent> <leader>ff :CtrlP<CR>
 nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 
 " buffer
-nnoremap <silent> <leader>bf :CtrlPBuffer<CR>
 nnoremap <silent> <leader>jf :%!python3 -m json.tool<CR>
 nnoremap <silent> <leader>pdb :!python3 -m pdb %
 nnoremap <silent> <leader>tg :TagbarToggle<CR>
@@ -194,6 +208,8 @@ nnoremap <C-c> <C-w><C-c>
 " nnoremap <C-o> <C-w><C-o>
 
 " code
+nnoremap <silent> <leader>sc :LeaderfBufTagAll<CR>
+nnoremap <silent> <leader>sf :LeaderfFunction<CR>
 nnoremap <silent> <leader>cb :TagbarToggle<CR>
 nnoremap <silent> <leader>jts :JavaComplete-Generate-ToString<CR>
 nnoremap <silent> <leader>gas :JCgenerateAccessorSetter<CR>
@@ -213,7 +229,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 nmap <C-t> :call jedi#goto()<CR>
 nmap <C-e> :call jedi#show_documentation() <CR>
 nmap <C-n> :call jedi#usages()<CR>
-" quick key
 
 map <C-x> :call SetMouse() <CR>
 nmap <C-g> :Gitv <CR>
@@ -236,7 +251,7 @@ call neomake#configure#automake('rw', 1000)
 set guioptions-=r " 隐藏右侧滚动条
 set guioptions-=b " 隐藏底部滚动条
 set guioptions-=L " 隐藏左侧滚动条
-set guifont=Source\ Code\ Pro\ Medium\ italic:h14
+set guifont=SF\ MONO:h13
 set clipboard=unnamed
 set nohlsearch
 set backspace=indent,eol,start
@@ -248,9 +263,7 @@ set langmenu=zh_CN.UTF-8
 "let g:indentLine_setColors = 0
 language message zh_CN.UTF-8
 let g:indentLine_color_term = 239
-set runtimepath^=~/.vim/plugged/ag
 set noeb
-set vb t_vb=
 "hi Normal     ctermbg=NONE guibg=NONE
 "hi LineNr     ctermbg=NONE guibg=NONE
 "hi SignColumn ctermbg=NONE guibg=NONE
@@ -292,3 +305,5 @@ vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
 
 nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
 nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
