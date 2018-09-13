@@ -31,57 +31,49 @@ let s:vim_plugged_path = g:VIM_HOME.'/plugged'
 call plug#begin(s:vim_plugged_path)
 
 " code browser
-Plug 'majutsushi/tagbar'
-Plug 'mattn/emmet-vim'
+" Plug 'mattn/emmet-vim'
 
 " file tree browser
 Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " python code completion
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
-Plug 'Valloric/YouCompleteMe'
-" ipython for nvim
-Plug 'bfredl/nvim-ipy', {'for': 'python'}
-
 " Syntax Checker
 Plug 'neomake/neomake'
 " vim-go
-Plug 'fatih/vim-go'
-Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+" Plug 'fatih/vim-go'
+" Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
 " gist-vim
 Plug 'lambdalisue/vim-gista'
 
-" command fuzzy finder
+" snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " colorscheme
-Plug 'nightsense/office'
-Plug 'ayu-theme/ayu-vim' " or other package manager
-Plug 'hzchirs/vim-material'
-Plug 'nightsense/nemo'
+Plug 'ericyan/vim-ocean'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'ayu-theme/ayu-vim' " or other package manager
+" Plug 'hzchirs/vim-material'
 Plug 'vim-airline/vim-airline'
-Plug 'nightsense/forgotten'
-Plug 'ajmwagar/vim-deus'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'vim-airline/vim-airline-themes'
-Plug 'altercation/vim-colors-solarized'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 
 " java
-Plug 'artur-shaik/vim-javacomplete2'
+" Plug 'artur-shaik/vim-javacomplete2'
 
 " other
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'davidoc/taskpaper.vim'
+Plug 'terryma/vim-smooth-scroll'
 Plug 'vim-scripts/todo-vim'
-Plug 'godlygeek/tabular'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', {'on': ['Gitv']}
-Plug 'mhinz/vim-startify'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Yggdroot/indentLine'
 call plug#end()
@@ -95,7 +87,6 @@ function! s:is_need_install()
         endif
     endfor
 endfunction
-
 if s:is_need_install()
     echom "Found new plugin(s) need to install."
     :PlugInstall
@@ -108,20 +99,34 @@ set nocompatible
 filetype plugin on
 filetype indent on
 
-" Use fisa colorscheme
+" Use tem colors
 set t_Co=256
 syntax enable
-"set background=dark
-set background=dark
-"colorscheme vim-material
 hi Comment cterm=italic
 
+
+" tagbar
+let g:tagbar_left=1
+let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+nnoremap <silent> <leader>tg :TagbarToggle<CR>
+
 " Ayu
+" let ayucolor="light"  " for light version of theme
+" let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+
 set termguicolors     " enable true colors support
-let ayucolor="light"  " for light version of theme
-let ayucolor="mirage" " for mirage version of theme
-let ayucolor="dark"   " for dark version of theme
-colorscheme ayu
+
+
+if has('gui_running')
+    " colorscheme codeburn
+    colorscheme base16-ocean
+    " colorscheme ayu
+else
+    set background=dark
+    colorscheme ayu
+    " colorscheme codeburn
+endif
 
 "" gui transparent
 if has("gui_running")
@@ -134,7 +139,20 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='material'
 
 " Show line numbers
-let g:neomake_python_enabled_makers = ['python', 'flake8'] 
+let g:neomake_python_enabled_makers = ['flake8']
+let g:neomake_python_flake8_maker = {
+  \ 'exe': '/usr/local/bin/flake8',
+  \ 'args': ['--format=default'],
+  \ 'errorformat':
+      \ '%E%f:%l: could not compile,%-Z%p^,' .
+      \ '%A%f:%l:%c: %t%n %m,' .
+      \ '%A%f:%l: %t%n %m,' .
+      \ '%-G%.%#',
+  \ 'postprocess': function('neomake#makers#ft#python#Flake8EntryProcess')
+  \ }
+
+
+
 " Keep 3 lines when scrolling
 set scrolloff=8
 
@@ -178,11 +196,11 @@ function! SetMouse()
 endfunction
 
 " set escape to jk
-inoremap jk <ESC>
 nmap <C-]> :TODOToggle<CR>
 nmap <C-r> :!python3 %<CR>
-" better command
-nnoremap <silent> <leader>vs :vs<CR>
+" Split fast
+nnoremap <leader>\ :vs<CR>
+nnoremap <leader>- :sp<CR>
 
 " general
 nnoremap <silent> <leader>gq :xa<CR>
@@ -197,7 +215,6 @@ nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 " buffer
 nnoremap <silent> <leader>jf :%!python3 -m json.tool<CR>
 nnoremap <silent> <leader>pdb :!python3 -m pdb %
-nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 " window
 nnoremap <C-h> <C-w><C-h>
@@ -205,21 +222,14 @@ nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
 nnoremap <C-c> <C-w><C-c>
+nnoremap <C-q> <C-o>
 " nnoremap <C-o> <C-w><C-o>
-
-if has("gui_running")
-    set transparency=10
-endif
 
 " code
 nnoremap <silent> <leader>sc :LeaderfBufTagAll<CR>
 nnoremap <silent> <leader>sf :LeaderfFunction<CR>
 nnoremap <silent> <leader>cb :TagbarToggle<CR>
-nnoremap <silent> <leader>jts :JavaComplete-Generate-ToString<CR>
-nnoremap <silent> <leader>gas :JCgenerateAccessorSetter<CR>
-nnoremap <silent> <leader>gam :JCgenerateAbtractMethods <CR>
 
-" NERDTree
 
 " automatic open nerdtree when start up vim with a directory.
 autocmd StdinReadPre * let s:std_in=1
@@ -229,13 +239,11 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Jedi
-
 nmap <C-t> :call jedi#goto()<CR>
-nmap <C-e> :call jedi#show_documentation() <CR>
 nmap <C-n> :call jedi#usages()<CR>
-
+nmap <C-e> :call jedi#show_documentation()<CR>
 map <C-x> :call SetMouse() <CR>
-nmap <C-g> :Gitv <CR>
+nmap <C-i> :Gitv <CR>
 
 " PEP8
 
@@ -260,54 +268,18 @@ set clipboard=unnamed
 set nohlsearch
 set backspace=indent,eol,start
 set nowrap
-hi pythonSelf ctermfg=174 guifg=#6094DB cterm=bold gui=bold
 set nu
 set encoding=utf-8
 set langmenu=zh_CN.UTF-8
 "let g:indentLine_setColors = 0
-language message zh_CN.UTF-8
 let g:indentLine_color_term = 239
 set noeb
 "hi Normal     ctermbg=NONE guibg=NONE
 "hi LineNr     ctermbg=NONE guibg=NONE
 "hi SignColumn ctermbg=NONE guibg=NONE
-let g:go_version_warning = 0
+let g:go_version_warning = 2
 let g:SuperTabDefaultCompletionType = "<c-n>"
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
+let g:SuperTabDefaultCompletionType="<C-x><C-o>"
 
-" java complete2 default map
-nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
-nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused)
-nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart)
-nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
-
-imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
-imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
-imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
-imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
-
-nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
-
-imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
-
-nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
-nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
-nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
-nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
-nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
-nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
-nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
-
-imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
-imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
-imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-
-vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
-vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
-vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
-
-nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
-nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
