@@ -58,8 +58,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " colorscheme
 Plug 'ericyan/vim-ocean'
 " Plug 'altercation/vim-colors-solarized'
-" Plug 'ayu-theme/ayu-vim' " or other package manager
-" Plug 'hzchirs/vim-material'
+Plug 'ayu-theme/ayu-vim' " or other package manager
+Plug 'hzchirs/vim-material'
 Plug 'vim-airline/vim-airline'
 " Plug 'morhetz/gruvbox'
 
