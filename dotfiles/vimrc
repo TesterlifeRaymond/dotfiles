@@ -58,13 +58,14 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " colorscheme
 Plug 'ericyan/vim-ocean'
 " Plug 'altercation/vim-colors-solarized'
-" Plug 'ayu-theme/ayu-vim' " or other package manager
-" Plug 'hzchirs/vim-material'
+Plug 'ayu-theme/ayu-vim' " or other package manager
+Plug 'hzchirs/vim-material'
 Plug 'vim-airline/vim-airline'
 " Plug 'morhetz/gruvbox'
 
 " java
-" Plug 'artur-shaik/vim-javacomplete2'
+Plug 'artur-shaik/vim-javacomplete2'
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " other
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
@@ -106,9 +107,9 @@ hi Comment cterm=italic
 
 
 " tagbar
-let g:tagbar_left=1
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
-nnoremap <silent> <leader>tg :TagbarToggle<CR>
+let g:tagbar_right=1
+
 
 " Ayu
 " let ayucolor="light"  " for light version of theme
@@ -215,6 +216,7 @@ nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 " buffer
 nnoremap <silent> <leader>jf :%!python3 -m json.tool<CR>
 nnoremap <silent> <leader>pdb :!python3 -m pdb %
+nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 " window
 nnoremap <C-h> <C-w><C-h>
@@ -227,7 +229,8 @@ nnoremap <C-q> <C-o>
 
 " code
 nnoremap <silent> <leader>sc :LeaderfBufTagAll<CR>
-nnoremap <silent> <leader>sf :LeaderfFunction<CR>
+nnoremap <silent> <leader>sfu :LeaderfFunction<CR>
+nnoremap <silent> <leader>sf :LeaderfFile<CR>
 nnoremap <silent> <leader>cb :TagbarToggle<CR>
 
 
