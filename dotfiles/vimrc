@@ -1,19 +1,6 @@
-" Cano's Vim Config Author: Cano
-" Email: gcanoxl@gmail.com
-"
-" This config is lightweight, but smart development environment
-" for Web front-end(HTML, CSS, JavaScript), python languages.
-"
-" You should install all tools of the list before use this config.
-" List: git, curl, ctags, jedi, ipykernel, jupyter_client
+" Raymond Vimrc Profile
 
-" Enviroment initialization (compatible with neovim)
 let g:VIM_HOME = expand('~/.vim')
-
-
-if has('nvim')
-    let g:VIM_HOME = expand('~/.config/nvim')
-endif
 
 " Vim-plug installation
 " if vim-plug file (by default, it's VIM_HOME/autoload/plug.vim) is
@@ -25,13 +12,14 @@ if !filereadable(s:vim_plug_path)
     let s:vim_plug_git = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     execute "!curl -fLo ".s:vim_plug_path." --create-dirs ".s:vim_plug_git
 endif
+
 let s:vim_plugged_path = g:VIM_HOME.'/plugged'
 
 " Plugins Table
 call plug#begin(s:vim_plugged_path)
 
 " code browser
-" Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 
 " file tree browser
 Plug 'scrooloose/nerdtree'
@@ -40,11 +28,15 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " python code completion
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
+
 " Syntax Checker
 Plug 'neomake/neomake'
+
 " vim-go
-" Plug 'fatih/vim-go'
-" Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+Plug 'dgryski/vim-godef'
+Plug 'jstemmer/gotags'
+Plug 'fatih/vim-go'
+Plug 'Blackrush/vim-gocode'
 
 " gist-vim
 Plug 'lambdalisue/vim-gista'
@@ -52,9 +44,11 @@ Plug 'lambdalisue/vim-gista'
 " snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
 " colorscheme
 Plug 'ericyan/vim-ocean'
 " Plug 'altercation/vim-colors-solarized'
@@ -62,10 +56,6 @@ Plug 'ayu-theme/ayu-vim' " or other package manager
 Plug 'hzchirs/vim-material'
 Plug 'vim-airline/vim-airline'
 " Plug 'morhetz/gruvbox'
-
-" java
-Plug 'artur-shaik/vim-javacomplete2'
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " other
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
@@ -77,6 +67,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', {'on': ['Gitv']}
 Plug 'scrooloose/nerdcommenter'
 Plug 'Yggdroot/indentLine'
+
 call plug#end()
 
 " Automatic installation.
@@ -88,6 +79,7 @@ function! s:is_need_install()
         endif
     endfor
 endfunction
+
 if s:is_need_install()
     echom "Found new plugin(s) need to install."
     :PlugInstall
@@ -100,6 +92,10 @@ set nocompatible
 filetype plugin on
 filetype indent on
 
+nmap <C-t> :call jedi#goto()<CR>
+nmap <C-n> :call jedi#usages()<CR>
+nmap <C-e> :call jedi#show_documentation()<CR>
+
 " Use tem colors
 set t_Co=256
 syntax enable
@@ -110,27 +106,23 @@ hi Comment cterm=italic
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 let g:tagbar_right=1
 
-
 " Ayu
 " let ayucolor="light"  " for light version of theme
 " let ayucolor="mirage" " for mirage version of theme
 "let ayucolor="dark"   " for dark version of theme
 
-set termguicolors     " enable true colors support
 
-
-if has('gui_running')
-    " colorscheme codeburn
-    colorscheme base16-ocean
-    " colorscheme ayu
-else
-    set background=dark
-    colorscheme ayu
-    " colorscheme codeburn
-endif
+colorscheme base16-ocean
+" colorscheme ayu
 
 "" gui transparent
 if has("gui_running")
+"    colorscheme codeburn
+    set guioptions-=r " 隐藏右侧滚动条
+    set guioptions-=b " 隐藏底部滚动条
+    set guioptions-=L " 隐藏左侧滚动条
+    set guifont=SF\ MONO:h14
+    set termguicolors     " enable true colors support
     set shellcmdflag=-ic
     set transparency=10
 endif
@@ -139,7 +131,11 @@ endif
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='material'
 
-" Show line numbers
+" go fmt
+au BufNewFile,BufRead *.go set filetype=go
+autocmd BufWritePre *.go :Fmt
+
+
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_python_flake8_maker = {
   \ 'exe': '/usr/local/bin/flake8',
@@ -196,8 +192,10 @@ function! SetMouse()
     endif
 endfunction
 
+
+
 " set escape to jk
-nmap <C-]> :TODOToggle<CR>
+nmap <C-,> :TODOToggle<CR>
 nmap <C-r> :!python3 %<CR>
 " Split fast
 nnoremap <leader>\ :vs<CR>
@@ -207,7 +205,7 @@ nnoremap <leader>- :sp<CR>
 nnoremap <silent> <leader>gq :xa<CR>
 nnoremap <silent> <leader>ge :edit $MYVIMRC<CR>
 nnoremap <silent> <leader>gr :source $MYVIMRC<CR>
-nnoremap <silent> <leader>q :q! <CR>
+nnoremap <silent> <leader>q :q!<CR>
 
 " file
 nnoremap <silent> <leader>fs :w<CR>
@@ -215,7 +213,7 @@ nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 
 " buffer
 nnoremap <silent> <leader>jf :%!python3 -m json.tool<CR>
-nnoremap <silent> <leader>pdb :!python3 -m pdb %
+nnoremap <silent> <leader>pdb :!python3 -m pdb %<CR>
 nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
 " window
@@ -241,12 +239,8 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " automatic close nerdtree when only nerdtree window.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Jedi
-nmap <C-t> :call jedi#goto()<CR>
-nmap <C-n> :call jedi#usages()<CR>
-nmap <C-e> :call jedi#show_documentation()<CR>
 map <C-x> :call SetMouse() <CR>
-nmap <C-i> :Gitv <CR>
+nmap <C-i> :Gitv<CR>
 
 " PEP8
 
@@ -256,17 +250,13 @@ set shiftwidth=4
 set textwidth=99
 set expandtab
 set autoindent
-" set fileformat=unix
+
 " When writing a buffer.
 call neomake#configure#automake('w')
 " When writing a buffer, and on normal mode changes (after 750ms).
 call neomake#configure#automake('nw', 750)
 " When reading a buffer (after 1s), and when writing.
 call neomake#configure#automake('rw', 1000)
-set guioptions-=r " 隐藏右侧滚动条
-set guioptions-=b " 隐藏底部滚动条
-set guioptions-=L " 隐藏左侧滚动条
-set guifont=SF\ MONO:h13
 set clipboard=unnamed
 set nohlsearch
 set backspace=indent,eol,start
