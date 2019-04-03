@@ -20,6 +20,8 @@ call plug#begin(s:vim_plugged_path)
 
 " code browser
 Plug 'mattn/emmet-vim'
+" supertab
+Plug 'ervandew/supertab'
 
 " file tree browser
 Plug 'scrooloose/nerdtree'
@@ -50,12 +52,14 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " colorscheme
-Plug 'ericyan/vim-ocean'
+Plug 'flazz/vim-colorschemes'
+" Plug 'ryanoasis/nerd-fonts'
+" Plug 'ericyan/vim-ocean'
 " Plug 'altercation/vim-colors-solarized'
 Plug 'ayu-theme/ayu-vim' " or other package manager
-Plug 'hzchirs/vim-material'
+" Plug 'hzchirs/vim-material'
 Plug 'vim-airline/vim-airline'
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 
 " other
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
@@ -112,8 +116,9 @@ let g:tagbar_right=1
 "let ayucolor="dark"   " for dark version of theme
 
 
-colorscheme base16-ocean
-" colorscheme ayu
+" colorscheme base16-ocean
+"colorscheme inkpot
+colorscheme Tomorrow-Night
 
 "" gui transparent
 if has("gui_running")
@@ -129,7 +134,7 @@ endif
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='material'
+let g:airline_theme='gruvbox'
 
 " go fmt
 au BufNewFile,BufRead *.go set filetype=go
@@ -276,3 +281,13 @@ let g:SuperTabDefaultCompletionType="<C-x><C-o>"
 
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+"需要安装字体
+"brew tap caskroom/fonts
+"brew cask install font-hack-nerd-font
+
+" vim-go conf
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
