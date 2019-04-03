@@ -39,6 +39,7 @@ Plug 'dgryski/vim-godef'
 Plug 'jstemmer/gotags'
 Plug 'fatih/vim-go'
 Plug 'Blackrush/vim-gocode'
+Plug 'jayli/vim-easycomplete'
 
 " gist-vim
 Plug 'lambdalisue/vim-gista'
@@ -291,3 +292,38 @@ let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+let g:go_highlight_types = 1
+" Go 结构体成员高亮
+let g:go_highlight_fields = 1
+" Go 函数名高亮
+let g:go_highlight_function_calls = 1
+"autocmd FileType go imap . <C-x><C-o>
+let g:pmenu_scheme = 'dark'
+
+autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+function! s:CloseIfOnlyNerdTreeLeft()
+    if exists("t:NERDTreeBufName")
+        if bufwinnr(t:NERDTreeBufName) != -1
+            if winnr("$") == 1
+                q
+            endif
+        endif
+    endif
+endfunction
+
+" vim-go custom mappings
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <Leader>e <Plug>(go-rename)
+"imap <silent> . <C-X><C-O>
+set completeopt=longest,menuone
+au filetype go imap . .<c-x><c-o>
