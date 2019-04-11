@@ -117,7 +117,9 @@ let g:tagbar_right=1
 "let ayucolor="dark"   " for dark version of theme
 
 
-" colorscheme base16-ocean
+"colorscheme base16-ocean
+"colorscheme angr
+"colorscheme hybrid
 "colorscheme inkpot
 colorscheme Tomorrow-Night
 
@@ -127,7 +129,7 @@ if has("gui_running")
     set guioptions-=r " 隐藏右侧滚动条
     set guioptions-=b " 隐藏底部滚动条
     set guioptions-=L " 隐藏左侧滚动条
-    set guifont=SF\ MONO:h14
+    set guifont=SF\ MONO:h13
     set termguicolors     " enable true colors support
     set shellcmdflag=-ic
     set transparency=10
@@ -297,7 +299,6 @@ let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 " Go 函数名高亮
 let g:go_highlight_function_calls = 1
-"autocmd FileType go imap . <C-x><C-o>
 let g:pmenu_scheme = 'dark'
 
 autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
@@ -327,3 +328,5 @@ au FileType go nmap <Leader>e <Plug>(go-rename)
 "imap <silent> . <C-X><C-O>
 set completeopt=longest,menuone
 au filetype go imap . .<c-x><c-o>
+let g:gofmt_command ="goimports"
+let g:airline#themes#flatlandia#palette=0
