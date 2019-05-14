@@ -33,6 +33,8 @@ Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
 " Syntax Checker
 Plug 'neomake/neomake'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+
 
 " vim-go
 Plug 'dgryski/vim-godef'
@@ -72,6 +74,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', {'on': ['Gitv']}
 Plug 'scrooloose/nerdcommenter'
 Plug 'Yggdroot/indentLine'
+Plug 'ajh17/spacegray.vim'
+"Plug 'ryanoasis/vim-devicons'
+
 
 call plug#end()
 
@@ -120,16 +125,21 @@ let g:tagbar_right=1
 "colorscheme base16-ocean
 "colorscheme angr
 "colorscheme hybrid
-"colorscheme inkpot
-colorscheme Tomorrow-Night
+"colorscheme obsidian2
+colorscheme spacegray
+"colorscheme Atelier_PlateauDark
+"colorscheme Tomorrow-Night
 
 "" gui transparent
 if has("gui_running")
-"    colorscheme codeburn
-    set guioptions-=r " 隐藏右侧滚动条
-    set guioptions-=b " 隐藏底部滚动条
-    set guioptions-=L " 隐藏左侧滚动条
-    set guifont=SF\ MONO:h13
+    let g:gruvbox_contrast_dark="hard"
+    set background=light
+    colorscheme gruvbox
+    set guioptions-=r " 
+    set guioptions-=b "
+    set guioptions-=L "
+    set guifont=SF\ MONO\ Medium\ Italic:h14
+    "set guifont=SFMono\ Font:h14
     set termguicolors     " enable true colors support
     set shellcmdflag=-ic
     set transparency=10
@@ -245,10 +255,11 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
 " automatic close nerdtree when only nerdtree window.
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
+au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+au bufenter * if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) | qa! | endif
 map <C-x> :call SetMouse() <CR>
-nmap <C-i> :Gitv<CR>
+"nmap <C-i> :Gitv<CR>
+"nmap <C-i> :%bd | e#<CR>
 
 " PEP8
 
@@ -270,7 +281,7 @@ set nohlsearch
 set backspace=indent,eol,start
 set nowrap
 set nu
-set encoding=utf-8
+set encoding=UTF-8
 set langmenu=zh_CN.UTF-8
 "let g:indentLine_setColors = 0
 let g:indentLine_color_term = 239
@@ -279,11 +290,13 @@ set noeb
 "hi LineNr     ctermbg=NONE guibg=NONE
 "hi SignColumn ctermbg=NONE guibg=NONE
 let g:go_version_warning = 2
-let g:SuperTabDefaultCompletionType = "<c-n>"
+"let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabDefaultCompletionType="<C-x><C-o>"
 
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-n> :bn<CR>
+noremap <silent> <c-p> :bp<CR>
 "需要安装字体
 "brew tap caskroom/fonts
 "brew cask install font-hack-nerd-font
@@ -325,8 +338,35 @@ au FileType go nmap <Leader>ds <Plug>(go-def-split)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>e <Plug>(go-rename)
-"imap <silent> . <C-X><C-O>
+
+
 set completeopt=longest,menuone
-au filetype go imap . .<c-x><c-o>
+let g:go_fmt_autosave = 0
 let g:gofmt_command ="goimports"
 let g:airline#themes#flatlandia#palette=0
+
+let g:spacegray_use_italics = 1
+let g:spacegray_underline_search = 1
+let g:spacegray_low_contrast = 1
+
+
+function! DeleteAllBuffersInWindow()
+let s:curWinNr = winnr()
+    if winbufnr(s:curWinNr) == 1
+    ret
+endif
+    let s:curBufNr = bufnr("%")
+    exe "bn"
+    let s:nextBufNr = bufnr("%")
+    while s:nextBufNr != s:curBufNr
+        exe "bn"
+        exe "bdel ".s:nextBufNr
+        let s:nextBufNr = bufnr("%")
+    endwhile
+endfun
+
+
+" nerdtree icons conf
+"let g:webdevicons_enable = 1
+"let g:webdevicons_enable_nerdtree = 1
+"let g:webdevicons_enable_ctrlp = 1

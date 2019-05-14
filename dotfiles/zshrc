@@ -1,0 +1,32 @@
+# Oh-My-Zsh
+export DOTFILES_HOME=$HOME/.dotfiles
+export ZSH=$DOTFILES_HOME/oh-my-zsh
+
+ZSH_THEME="cloud"
+
+source $ZSH/oh-my-zsh.sh
+
+# ================= PERSONAL CONFIG ====================
+
+# set escape key to jk
+# bindkey -M viins 'jk' vi-cmd-mode
+
+# automatic launch tmux when startup terminal
+# ====================== ALIAS =========================
+alias reload="source $HOME/.zshrc"
+
+# git
+alias gs="git status"
+alias ga="git add"
+alias gm="git commit -m"
+alias mvim="/Applications/MacVim.app/Contents/bin/gvim"
+export GOROOT=/usr/local/Cellar/go/1.12/libexec
+export GOBIN=$GOROOT/bin
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
+export PKG_CONFIG_PATH
+alias go=$GOROOT/bin/go
+export PATH=$PATH:$M2_HOME/bin
+
