@@ -342,7 +342,8 @@ au FileType go nmap <Leader>e <Plug>(go-rename)
 
 set completeopt=longest,menuone
 let g:go_fmt_autosave = 0
-let g:gofmt_command ="goimports"
+let g:gofmt_command = "goimports"
+let g:go_def_mode = 'gopls'
 let g:airline#themes#flatlandia#palette=0
 
 let g:spacegray_use_italics = 1
