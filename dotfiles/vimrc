@@ -18,10 +18,15 @@ let s:vim_plugged_path = g:VIM_HOME.'/plugged'
 " Plugins Table
 call plug#begin(s:vim_plugged_path)
 
-" code browser
-Plug 'mattn/emmet-vim'
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " supertab
 Plug 'ervandew/supertab'
+" pairs
+Plug 'jiangmiao/auto-pairs'
+" youdao
+Plug 'ianva/vim-youdao-translater'
 
 " file tree browser
 Plug 'scrooloose/nerdtree'
@@ -33,18 +38,14 @@ Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
 " Syntax Checker
 Plug 'neomake/neomake'
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-
+Plug 'Shougo/neocomplete.vim'
 
 " vim-go
 Plug 'dgryski/vim-godef'
 Plug 'jstemmer/gotags'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'Blackrush/vim-gocode'
-Plug 'jayli/vim-easycomplete'
-
-" gist-vim
-Plug 'lambdalisue/vim-gista'
+" Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
 " snippets
 Plug 'SirVer/ultisnips'
@@ -55,24 +56,21 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " colorscheme
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 " Plug 'ryanoasis/nerd-fonts'
 " Plug 'ericyan/vim-ocean'
 " Plug 'altercation/vim-colors-solarized'
-Plug 'ayu-theme/ayu-vim' " or other package manager
 " Plug 'hzchirs/vim-material'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
+Plug 'jistr/vim-nerdtree-tabs'
 
 " other
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'terryma/vim-smooth-scroll'
 Plug 'vim-scripts/todo-vim'
-Plug 'tpope/vim-git'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'gregsexton/gitv', {'on': ['Gitv']}
-Plug 'scrooloose/nerdcommenter'
+" Plug 'gregsexton/gitv', {'on': ['Gitv']}
 Plug 'Yggdroot/indentLine'
 Plug 'ajh17/spacegray.vim'
 "Plug 'ryanoasis/vim-devicons'
@@ -126,7 +124,7 @@ let g:tagbar_right=1
 "colorscheme angr
 "colorscheme hybrid
 "colorscheme obsidian2
-colorscheme spacegray
+"colorscheme spacegray
 "colorscheme Atelier_PlateauDark
 "colorscheme Tomorrow-Night
 
@@ -135,10 +133,11 @@ if has("gui_running")
     let g:gruvbox_contrast_dark="hard"
     set background=light
     colorscheme gruvbox
-    set guioptions-=r " 
+    " colorscheme spacegray
+    set guioptions-=r "
     set guioptions-=b "
     set guioptions-=L "
-    set guifont=SF\ MONO\ Medium\ Italic:h14
+    set guifont=SF\ MONO\ Medium\ Italic:h15
     "set guifont=SFMono\ Font:h14
     set termguicolors     " enable true colors support
     set shellcmdflag=-ic
@@ -150,8 +149,8 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='gruvbox'
 
 " go fmt
-au BufNewFile,BufRead *.go set filetype=go
-autocmd BufWritePre *.go :Fmt
+" au BufNewFile,BufRead *.go set filetype=go
+"autocmd BufWritePre *.go :Fmt
 
 
 let g:neomake_python_enabled_makers = ['flake8']
@@ -213,8 +212,9 @@ endfunction
 
 
 " set escape to jk
+inoremap jk <esc>
 nmap <C-,> :TODOToggle<CR>
-nmap <C-r> :!python3 %<CR>
+" nmap <C-r> :!python3 %<CR>
 " Split fast
 nnoremap <leader>\ :vs<CR>
 nnoremap <leader>- :sp<CR>
@@ -258,7 +258,6 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 au bufenter * if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) | qa! | endif
 map <C-x> :call SetMouse() <CR>
-"nmap <C-i> :Gitv<CR>
 "nmap <C-i> :%bd | e#<CR>
 
 " PEP8
@@ -269,6 +268,7 @@ set shiftwidth=4
 set textwidth=99
 set expandtab
 set autoindent
+set smartindent
 
 " When writing a buffer.
 call neomake#configure#automake('w')
@@ -290,13 +290,13 @@ set noeb
 "hi LineNr     ctermbg=NONE guibg=NONE
 "hi SignColumn ctermbg=NONE guibg=NONE
 let g:go_version_warning = 2
-"let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabRetainCompletionType = 0
 let g:SuperTabDefaultCompletionType="<C-x><C-o>"
 
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-n> :bn<CR>
-noremap <silent> <c-p> :bp<CR>
+"noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+"noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+"noremap <silent> <c-n> :bn<CR>
+"noremap <silent> <c-p> :bp<CR>
 "需要安装字体
 "brew tap caskroom/fonts
 "brew cask install font-hack-nerd-font
@@ -326,11 +326,11 @@ function! s:CloseIfOnlyNerdTreeLeft()
 endfunction
 
 " vim-go custom mappings
-au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <Leader>s <Plug>(coc-implementation)
 au FileType go nmap <Leader>i <Plug>(go-info)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <leader>r <Plug>(go-run)
+" au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
@@ -338,17 +338,19 @@ au FileType go nmap <Leader>ds <Plug>(go-def-split)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>e <Plug>(go-rename)
+au FileType go nmap <Leader>r <Plug>(go-referrers)
 
 
 set completeopt=longest,menuone
-let g:go_fmt_autosave = 0
-let g:gofmt_command = "goimports"
-let g:go_def_mode = 'gopls'
+let g:go_fmt_autosave = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:go_fmt_command = "goimports"
 let g:airline#themes#flatlandia#palette=0
 
-let g:spacegray_use_italics = 1
-let g:spacegray_underline_search = 1
-let g:spacegray_low_contrast = 1
+" let g:spacegray_use_italics = 1
+" let g:spacegray_underline_search = 1
+" let g:spacegray_low_contrast = 1
 
 
 function! DeleteAllBuffersInWindow()
@@ -366,8 +368,135 @@ endif
     endwhile
 endfun
 
+map <leader>bda     :call DeleteAllBuffersInWindow()
 
 " nerdtree icons conf
-"let g:webdevicons_enable = 1
-"let g:webdevicons_enable_nerdtree = 1
-"let g:webdevicons_enable_ctrlp = 1
+" let g:webdevicons_enable = 1
+" let g:webdevicons_enable_nerdtree = 1
+" let g:webdevicons_enable_ctrlp = 1
+" let g:tagbar_autopreview = 1
+" au filetype go inoremap <buffer> . .<C-x><C-o>
+
+let NERDTreeIgnore=['\.pyc','\~$','\.swp']
+" 打开 vim 文件及显示书签列表
+let NERDTreeShowBookmarks=2
+
+" 在终端启动vim时，共享NERDTree
+let g:nerdtree_tabs_open_on_console_startup=1
+
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+
+"let g:NERDTreeIndicatorMapCustom = {
+"    \ "Modified"  : "✹",
+"    \ "Staged"    : "✚",
+"    \ "Untracked" : "✭",
+"    \ "Renamed"   : "➜",
+"    \ "Unmerged"  : "═",
+"    \ "Deleted"   : "✖",
+"    \ "Dirty"     : "✗",
+"    \ "Clean"     : "✔︎",
+"    \ 'Ignored'   : '☒',
+"    \ "Unknown"   : "?"
+"    \ }
+
+"let g:NERDTreeShowIgnoredStatus = 1
+
+
+
+" 有道翻译
+vnoremap <silent> <C-T> :<C-u>Ydv<CR>
+nnoremap <silent> <C-T> :<C-u>Ydc<CR>
+noremap <leader>yd :<C-u>Yde<CR>
+
+" -------------------------------------------------------------------------------------------------
+" coc.nvim default settings
+" -------------------------------------------------------------------------------------------------
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+" Better display for messages
+set cmdheight=2
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use U to show documentation in preview window
+nnoremap <silent> U :call <SID>show_documentation()<CR>
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
