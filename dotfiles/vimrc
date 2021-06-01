@@ -3,7 +3,7 @@
 let g:VIM_HOME = expand('~/.vim')
 
 " Vim-plug installation
-" if vim-plug file (by default, it's VIM_HOME/autoload/plug.vim) is
+    " if vim-plug file (by default, it's VIM_HOME/autoload/plug.vim) is
 " not exist, then download and install it from github.
 let s:vim_plug_path = g:VIM_HOME.'/autoload/plug.vim'
 if !filereadable(s:vim_plug_path)
@@ -18,69 +18,65 @@ let s:vim_plugged_path = g:VIM_HOME.'/plugged'
 " Plugins Table
 call plug#begin(s:vim_plugged_path)
 
-" markdown
-Plug 'mzlogin/vim-markdown-toc'
-Plug 'godlygeek/tabular' "必要插件，安装在vim-markdown前面
-Plug 'plasticboy/vim-markdown'
+" NERD Commenter
+Plug 'preservim/nerdcommenter'
+Plug 'yuttie/inkstained-vim'
 
-Plug 'irrationalistic/vim-tasks'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" markdown
+Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.vim'
+
+" colorscheme
+Plug 'doums/darcula'
+Plug 'sts10/vim-pink-moon'
+Plug 'rakr/vim-two-firewatch'
+Plug 'cormacrelf/vim-colors-github'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'joshdick/onedark.vim'
+
+
 
 " supertab
 Plug 'ervandew/supertab'
+" tabnine
+" Plug 'codota/tabnine-vim'
+" uml 
+Plug 'scrooloose/vim-slumlord'
+Plug 'aklt/plantuml-syntax'
+Plug 'skanehira/preview-uml.vim'
 " pairs
 Plug 'jiangmiao/auto-pairs'
-" youdao
-Plug 'ianva/vim-youdao-translater'
 "vim启动页面修改
 Plug 'mhinz/vim-startify'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dgryski/vim-godef'
+Plug 'jstemmer/gotags'
+Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+
+" git
+Plug 'junegunn/gv.vim'
+
 
 " file tree browser
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
-
-" python code completion
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
-
-" Syntax Checker
-Plug 'neomake/neomake'
-Plug 'Shougo/neocomplete.vim'
-
-" vim-go
-Plug 'fatih/vim-go', { 'tag': '*' }
-Plug 'ayu-theme/ayu-vim'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'Yggdroot/LeaderF'
-Plug 'dgryski/vim-godef'
-Plug 'jstemmer/gotags'
-Plug 'Blackrush/vim-gocode'
-" Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-
 " snippets
-" Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'rakr/vim-two-firewatch'
-
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" colorscheme
-" Plug 'ericyan/vim-ocean'
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'hzchirs/vim-material'
+Plug 'SirVer/ultisnips'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
 Plug 'jistr/vim-nerdtree-tabs'
-
-" other
-Plug 'terryma/vim-smooth-scroll'
-Plug 'vim-scripts/todo-vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'Yggdroot/indentLine'
+Plug 'rbong/vim-flog'
+
+" go
+Plug 'fatih/vim-go', { 'do': 'GoUpdateBinaries' }
+
+" colorscheme
 
 call plug#end()
 
@@ -99,8 +95,6 @@ if s:is_need_install()
     :PlugInstall
 endif
 
-" No vi-compatible
-set nocompatible
 
 " Allow plugins by file type
 filetype plugin on
@@ -109,8 +103,9 @@ filetype indent on
 " Use tem colors
 set t_Co=256
 syntax enable
-hi Comment cterm=italic
 
+"nerdtree
+let NERDTreeShowHidden=1
 
 " tagbar
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
@@ -121,51 +116,26 @@ let g:tagbar_right=1
 " let ayucolor="mirage" " for mirage version of theme
 " let ayucolor="dark"   " for dark version of theme
 
-" colorscheme two-firewatch
-" colorscheme base16-ocean
-"colorscheme angr
-"colorscheme hybrid
-"colorscheme obsidian2
-"colorscheme Atelier_PlateauDark
-"colorscheme Tomorrow-Night
-colorscheme gruvbox
-
-"" gui transparent
+"colorscheme two-firewatch
+"colorscheme base16-ocean
+"colorscheme gruvbox
+" gui transparent
 if has("gui_running")
-    let g:gruvbox_contrast_dark="hard"
-    set background=light
+    set background=dark
     set guioptions-=r "
     set guioptions-=b "
     set guioptions-=L "
-    " set guifont=SF\ Mono\ Medium:h15
-    set guifont=SFMono\ Nerd\ Font:h15
-    colorscheme gruvbox
+    " set guifont=SFMono\ Nerd\ Font:h14.5
+    set guifont=FiraCode\ Nerd\ Font\ Mono:h14.5
+    " set guifont=LigalexMono-MediumItalic:h14
+    colorscheme darcula
     set termguicolors     " enable true colors support
     set shellcmdflag=-ic
     set transparency=10
     set lines=50 columns=200
-    let g:two_firewatch_italics=1
-    let g:airline_theme='twofirewatch'
     let g:airline#extensions#tabline#enabled = 0
+    let g:lightline = { 'colorscheme': 'darculaOriginal' }
 endif
-
-" go fmt
-" au BufNewFile,BufRead *.go set filetype=go
-"autocmd BufWritePre *.go :Fmt
-
-let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_python_flake8_maker = {
-  \ 'exe': '/usr/local/bin/flake8',
-  \ 'args': ['--format=default'],
-  \ 'errorformat':
-      \ '%E%f:%l: could not compile,%-Z%p^,' .
-      \ '%A%f:%l:%c: %t%n %m,' .
-      \ '%A%f:%l: %t%n %m,' .
-      \ '%-G%.%#',
-  \ 'postprocess': function('neomake#makers#ft#python#Flake8EntryProcess')
-  \ }
-
-
 
 " Keep 3 lines when scrolling
 set scrolloff=8
@@ -206,7 +176,6 @@ endfunction
 
 
 " set escape to jk
-inoremap jk <esc>
 nnoremap <leader>\ :vs<CR>
 nnoremap <leader>- :sp<CR>
 
@@ -221,7 +190,7 @@ nnoremap <silent> <leader>fs :w<CR>
 nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 
 " buffer
-nnoremap <silent> <leader>jf :%!python3 -m json.tool<CR>
+nnoremap <silent> <leader>jf :%!python -c "import json,sys,collections,re; sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)))"<CR>
 nnoremap <silent> <leader>pdb :!python3 -m pdb %<CR>
 nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
@@ -241,133 +210,37 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " automatic close nerdtree when only nerdtree window.
 au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 au bufenter * if 0 == len(filter(range(1, winnr('$')), 'empty(getbufvar(winbufnr(v:val), "&bt"))')) | qa! | endif
-autocmd CursorHold * silent call CocActionAsync('highlight')
 map <C-x> :call SetMouse() <CR>
 
 " PEP8
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-" set textwidth=90
-set expandtab
+set textwidth=90
 set autoindent
 set smartindent
 
-" When writing a buffer.
-call neomake#configure#automake('w')
-" When writing a buffer, and on normal mode changes (after 750ms).
-call neomake#configure#automake('nw', 750)
-" When reading a buffer (after 1s), and when writing.
-call neomake#configure#automake('rw', 1000)
 set clipboard=unnamed
-set nohlsearch
 set backspace=indent,eol,start
 set nowrap
-set nu
 set encoding=UTF-8
 set langmenu=zh_CN.UTF-8
-"let g:indentLine_setColors = 0
-let g:indentLine_color_term = 239
 set noeb
 
-let g:go_version_warning = 2
-let g:SuperTabRetainCompletionType = 0
-let g:SuperTabDefaultCompletionType="<C-x><C-o>"
-
-"noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-"noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-"noremap <silent> <c-n> :bn<CR>
-"noremap <silent> <c-p> :bp<CR>
-"需要安装字体
-"brew tap caskroom/fonts
-"brew cask install font-hack-nerd-font
-
-" vim-go conf
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_types = 1
-" Go 结构体成员高亮
-let g:go_highlight_fields = 1
-" Go 函数名高亮
-let g:go_highlight_function_calls = 1
-let g:pmenu_scheme = 'dark'
-
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-function! s:CloseIfOnlyNerdTreeLeft()
-    if exists("t:NERDTreeBufName")
-        if bufwinnr(t:NERDTreeBufName) != -1
-            if winnr("$") == 1
-                q
-            endif
-        endif
-    endif
-endfunction
-
-" vim-go custom mappings
-" au FileType go nmap <leader>b <Plug>(go-build)
-" au FileType go nmap <leader>t <Plug>(go-test)
-" au FileType go nmap <leader>c <Plug>(go-coverage)
-" au FileType go nmap <Leader>r <Plug>(go-referrers)
-
-" set completeopt=longest,menuone
-" let g:go_fmt_autosave = 2
-au FileType go nmap <Leader>s <Plug>(coc-implementation)
-" au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-au FileType go nmap <Leader>e <Plug>(go-rename)
-
-
 set completeopt=longest,menuone
-let g:go_fmt_autosave = 1
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-let g:go_fmt_command = "goimports"
-let g:airline#themes#flatlandia#palette=0
-
-" let g:spacegray_use_italics = 1
-" let g:spacegray_underline_search = 1
-" let g:spacegray_low_contrast = 1
-
-
-function! DeleteAllBuffersInWindow()
-let s:curWinNr = winnr()
-    if winbufnr(s:curWinNr) == 1
-    ret
-endif
-    let s:curBufNr = bufnr("%")
-    exe "bn"
-    let s:nextBufNr = bufnr("%")
-    while s:nextBufNr != s:curBufNr
-        exe "bn"
-        exe "bdel ".s:nextBufNr
-        let s:nextBufNr = bufnr("%")
-    endwhile
-endfun
-
-map <leader>bda     :call DeleteAllBuffersInWindow()
 
 " nerdtree icons conf
 let g:webdevicons_enable = 1
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_ctrlp = 1
 let g:tagbar_autopreview = 1
-" au filetype go inoremap <buffer> . .<C-x><C-o>
-" au BufRead,BufNewFile *.go set filetype=go
 
-let NERDTreeIgnore=['\.pyc','\~$','\.swp']
+let NERDTreeIgnore=['\.pyc','\~$','\.swp', '\.DS_Store', "\idea", '\.temp', '\.git']
 " 打开 vim 文件及显示书签列表
 " let NERDTreeShowBookmarks=2
 
 " 在终端启动vim时，共享NERDTree
 " let g:nerdtree_tabs_open_on_console_startup=1
-
-let NERDTreeIgnore=['\.pyc','\~$','\.swp']
 " 打开 vim 文件及显示书签列表
 let NERDTreeShowBookmarks=2
 
@@ -402,24 +275,66 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
-"let g:NERDTreeIndicatorMapCustom = {
-"    \ "Modified"  : "✹",
-"    \ "Staged"    : "✚",
-"    \ "Untracked" : "✭",
-"    \ "Renamed"   : "➜",
-"    \ "Unmerged"  : "═",
-"    \ "Deleted"   : "✖",
-"    \ "Dirty"     : "✗",
-"    \ "Clean"     : "✔︎",
-"    \ 'Ignored'   : '☒',
-"    \ "Unknown"   : "?"
-"    \ }
 
+nnoremap <leader>bp :GoDebugBreakpoint<CR>
+nnoremap <leader>np :GoDebugContinue<CR>
+""""""""""""""""""""""""""""""
+"Leaderf settings
+""""""""""""""""""""""""""""""
+" Show icons, icons are shown by default
+let g:Lf_ShowDevIcons = 1
+" For GUI vim, the icon font can be specify like this, for example
+let g:Lf_PopupPalette = {
+    \  'light': {
+    \      'Lf_hl_match': {
+    \                'gui': 'NONE',
+    \                'font': 'NONE',
+    \                'guifg': 'NONE',
+    \                'guibg': '#303136',
+    \                'cterm': 'NONE',
+    \                'ctermfg': 'NONE',
+    \                'ctermbg': '236'
+    \              },
+    \      'Lf_hl_cursorline': {
+    \                'gui': 'NONE',
+    \                'font': 'NONE',
+    \                'guifg': 'NONE',
+    \                'guibg': '#303136',
+    \                'cterm': 'NONE',
+    \                'ctermfg': 'NONE',
+    \                'ctermbg': '236'
+    \              },
+    \      }
+    \  }
+let g:Lf_PreviewInPopup = 1
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_WindowHeight = 0.30
 
-" 有道翻译
-vnoremap <silent> <C-T> :<C-u>Ydv<CR>
-nnoremap <silent> <C-T> :<C-u>Ydc<CR>
-noremap <leader>yd :<C-u>Yde<CR>
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font':"Monaco\ Nerd\ Font\ Mono" }
+
+" let g:Lf_PreviewResult = { 'File': 1}
+let g:Lf_WildIgnore = {'dir':['.svn','.git','target','node_modules'],'file':['*.log']}
+"文件搜索
+nnoremap <silent><nowait> sf  :<C-u>LeaderfFile<cr>
+
+"历史打开过的文件
+nnoremap <silent> <Leader>m :Leaderf mru<CR>
+
+"Buffer
+nnoremap <silent><nowait> sb  :<C-u>LeaderfBuffer<cr>
+
+"函数搜索（仅当前文件里）
+" nnoremap <silent><nowait> lf :<C-u>LeaderfFunction<cr>
+
+"模糊搜索，很强大的功能，迅速秒搜
+nnoremap <silent><nowait> rg :<C-u>Leaderf rg<cr>
+
+" set noswapfile
+set directory=/tmp
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " -------------------------------------------------------------------------------------------------
 " coc.nvim default settings
@@ -479,60 +394,103 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-" vim-tasks
-let g:TasksMarkerBase = '☐'
-let g:TasksMarkerDone = '✔'
-let g:TasksMarkerCancelled = '✘'
-let g:TasksDateFormat = '%Y-%m-%d %H:%M'
-let g:TasksAttributeMarker = '@'
-let g:TasksArchiveSeparator = '＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿'
-
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
-
 " Use <C-j> for select text for visual placeholder of snippet.
 vmap <C-j> <Plug>(coc-snippets-select)
-
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
-let g:coc_snippet_next = '<tab>'
+" let g:coc_snippet_next = '<tab>'
 let NERDTreeShowBookmarks=1
 
-nnoremap <leader>bp :GoDebugBreakpoint<CR>
-nnoremap <leader>np :GoDebugContinue<CR>
-"vim-buffer
-" map <C-H> :bnext<CR>
-" map <C-L> :bprev<CR>
-autocmd CursorHold * silent call CocActionAsync('highlight')
-nmap <leader>qf  <Plug>(coc-fix-current)
+" supertab
+let g:go_version_warning = 2
+let g:SuperTabRetainCompletionType = 0
+let g:SuperTabDefaultCompletionType="<C-x><C-o>"
 
-" markdown 取消存储自动更新目录
-let g:vmt_auto_update_on_save = 0
-" map nn :bn<cr>
-" map np :bp<cr>
-" map bd :bd<cr>
+" set completeopt=longest,menuone
+" let g:go_fmt_autosave = 2
+au FileType go nmap <Leader>s <Plug>(coc-implementation)
+" au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>r <Plug>(go-rename)
+
+
+set completeopt=longest,menuone
+let g:go_fmt_autosave = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:go_fmt_command = "goimports"
+let g:airline#themes#flatlandia#palette=0
+
+" vim-go conf
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_types = 1
+" Go 结构体成员高亮
+let g:go_highlight_fields = 1
+" Go 函数名高亮
+let g:go_highlight_function_calls = 1
+
+set nu
+nohl
+highlight Comment ctermfg=gray guifg=#a1a3a6
+" highlight Pmenu ctermfg=2 ctermbg=3 guifg=#996666 guibg=#FFDAB9
 set cursorline
-let g:go_def_mode = 'gopls'
-" Remap for format selected region
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+hi Cursor         guifg=#F8F8F8           guibg=#A7A7A7
+
+
+" coc-git
+" lightline
+let g:lightline = {
+  \ 'active': {
+  \   'left': [
+  \     [ 'mode', 'paste' ],
+  \     [ 'ctrlpmark', 'git', 'diagnostic', 'cocstatus', 'filename', 'method' ]
+  \   ],
+  \   'right':[
+  \     [ 'filetype', 'fileencoding', 'lineinfo', 'percent' ],
+  \     [ 'blame' ]
+  \   ],
+  \ },
+  \ 'component_function': {
+  \   'blame': 'LightlineGitBlame',
+  \ }
+\ }
+
+function! LightlineGitBlame() abort
+  let blame = get(b:, 'coc_git_blame', '')
+  " return blame
+  return winwidth(0) > 120 ? blame : ''
+endfunction
+set statusline^=%{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}%{get(b:,'coc_git_blame','')}
+
+" coc-git keymaps
+" navigate chunks of current buffer
+nmap [g <Plug>(coc-git-prevchunk)
+nmap ]g <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
+
+" leader cm go语言多行注释
+" leader cu 取消选中行注释
