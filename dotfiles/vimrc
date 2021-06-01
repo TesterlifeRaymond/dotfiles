@@ -1,3 +1,7 @@
+" No vi-compatible
+"
+set nocompatible
+
 " Raymond Vimrc Profile
 
 let g:VIM_HOME = expand('~/.vim')
@@ -36,7 +40,6 @@ Plug 'liuchengxu/space-vim-dark'
 Plug 'joshdick/onedark.vim'
 
 
-
 " supertab
 Plug 'ervandew/supertab'
 " tabnine
@@ -57,7 +60,6 @@ Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink
 " git
 Plug 'junegunn/gv.vim'
 
-
 " file tree browser
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
@@ -76,7 +78,9 @@ Plug 'rbong/vim-flog'
 " go
 Plug 'fatih/vim-go', { 'do': 'GoUpdateBinaries' }
 
-" colorscheme
+
+" go
+Plug 'fatih/vim-go', { 'do': 'GoUpdateBinaries' }
 
 call plug#end()
 
@@ -121,6 +125,7 @@ let g:tagbar_right=1
 "colorscheme gruvbox
 " gui transparent
 if has("gui_running")
+    let g:gruvbox_contrast_dark="hard"
     set background=dark
     set guioptions-=r "
     set guioptions-=b "
@@ -219,14 +224,12 @@ set shiftwidth=4
 set textwidth=90
 set autoindent
 set smartindent
-
 set clipboard=unnamed
 set backspace=indent,eol,start
 set nowrap
 set encoding=UTF-8
 set langmenu=zh_CN.UTF-8
 set noeb
-
 set completeopt=longest,menuone
 
 " nerdtree icons conf
@@ -352,7 +355,7 @@ set shortmess+=c
 set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" Use command ':verbose imap <tab>' to make gure tab is not mapped by other plugin.
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -400,6 +403,12 @@ imap <C-l> <Plug>(coc-snippets-expand)
 vmap <C-j> <Plug>(coc-snippets-select)
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
 
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
