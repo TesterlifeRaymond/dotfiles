@@ -1,6 +1,10 @@
 " No vi-compatible
 "
 set nocompatible
+set runtimepath^=~/.vim/plugged/coc.nvim
+filetype plugin indent on
+imap <c-j> <Plug>(coc-snippets-expand-jump)
+imap <c-l> <Plug>(coc-snippets-expand)
 
 " Raymond Vimrc Profile
 
@@ -26,6 +30,7 @@ call plug#begin(s:vim_plugged_path)
 Plug 'preservim/nerdcommenter'
 Plug 'yuttie/inkstained-vim'
 
+" Plug 'dstein64/vim-startuptime'
 
 " markdown
 Plug 'iamcco/mathjax-support-for-mkdp'
@@ -38,10 +43,12 @@ Plug 'rakr/vim-two-firewatch'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'joshdick/onedark.vim'
+Plug 'NLKNguyen/papercolor-theme'
 
 
 " supertab
 Plug 'ervandew/supertab'
+" Plug 'honza/vim-snippets'
 " tabnine
 " Plug 'codota/tabnine-vim'
 " uml 
@@ -78,10 +85,6 @@ Plug 'rbong/vim-flog'
 " go
 Plug 'fatih/vim-go', { 'do': 'GoUpdateBinaries' }
 
-
-" go
-Plug 'fatih/vim-go', { 'do': 'GoUpdateBinaries' }
-
 call plug#end()
 
 " Automatic installation.
@@ -106,7 +109,6 @@ filetype indent on
 
 " Use tem colors
 set t_Co=256
-syntax enable
 
 "nerdtree
 let NERDTreeShowHidden=1
@@ -120,30 +122,34 @@ let g:tagbar_right=1
 " let ayucolor="mirage" " for mirage version of theme
 " let ayucolor="dark"   " for dark version of theme
 
-"colorscheme two-firewatch
-"colorscheme base16-ocean
-"colorscheme gruvbox
+" colorscheme PaperColor
+" colorscheme two-firewatch
+" colorscheme base16-ocean
+" colorscheme gruvbox
 " gui transparent
 if has("gui_running")
     let g:gruvbox_contrast_dark="hard"
-    set background=dark
+    " set background=dark
+    set background=light
     set guioptions-=r "
     set guioptions-=b "
     set guioptions-=L "
-    " set guifont=SFMono\ Nerd\ Font:h14.5
-    set guifont=FiraCode\ Nerd\ Font\ Mono:h14.5
+    "set guifont=SFMono\ Nerd\ Font:h14.5
+    set guifont=FiraCode\ Nerd\ Font\ Mono:h15
     " set guifont=LigalexMono-MediumItalic:h14
+    " set guifont=SpaceMono\ Nerd\ Font\ Mono:h14.5
+    " set guifont=Space\ Mono\ Italic\ Nerd\ Font\ Complete\ Mono:h15
     colorscheme darcula
     set termguicolors     " enable true colors support
     set shellcmdflag=-ic
     set transparency=10
-    set lines=50 columns=200
+    "set lines=50 columns=200
     let g:airline#extensions#tabline#enabled = 0
     let g:lightline = { 'colorscheme': 'darculaOriginal' }
 endif
 
 " Keep 3 lines when scrolling
-set scrolloff=8
+set scrolloff=4
 
 " Syntax highlight on
 syntax on
@@ -336,8 +342,8 @@ nnoremap <silent><nowait> rg :<C-u>Leaderf rg<cr>
 set directory=/tmp
 
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " -------------------------------------------------------------------------------------------------
 " coc.nvim default settings
@@ -393,8 +399,6 @@ nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
 nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
 nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " Use <C-l> for trigger snippet expand.
@@ -404,16 +408,9 @@ vmap <C-j> <Plug>(coc-snippets-select)
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
 " Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
-" let g:coc_snippet_next = '<tab>'
 let NERDTreeShowBookmarks=1
 
 " supertab
@@ -421,10 +418,7 @@ let g:go_version_warning = 2
 let g:SuperTabRetainCompletionType = 0
 let g:SuperTabDefaultCompletionType="<C-x><C-o>"
 
-" set completeopt=longest,menuone
-" let g:go_fmt_autosave = 2
 au FileType go nmap <Leader>s <Plug>(coc-implementation)
-" au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
