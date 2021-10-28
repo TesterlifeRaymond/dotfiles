@@ -1,10 +1,10 @@
 " No vi-compatible
-"
+
 set nocompatible
-set runtimepath^=~/.vim/plugged/coc.nvim
+" set runtimepath^=~/.vim/plugged/coc.nvim
+
+
 filetype plugin indent on
-imap <c-j> <Plug>(coc-snippets-expand-jump)
-imap <c-l> <Plug>(coc-snippets-expand)
 
 " Raymond Vimrc Profile
 
@@ -29,8 +29,15 @@ call plug#begin(s:vim_plugged_path)
 " NERD Commenter
 Plug 'preservim/nerdcommenter'
 Plug 'yuttie/inkstained-vim'
+Plug 'tpope/vim-surround'
+" Terraform
+Plug 'hashivim/vim-terraform'
+Plug 'vim-syntastic/syntastic'
+Plug 'juliosueiras/vim-terraform-completion'
 
 " Plug 'dstein64/vim-startuptime'
+
+Plug 'w0rp/ale' 
 
 " markdown
 Plug 'iamcco/mathjax-support-for-mkdp'
@@ -42,9 +49,13 @@ Plug 'sts10/vim-pink-moon'
 Plug 'rakr/vim-two-firewatch'
 Plug 'cormacrelf/vim-colors-github'
 Plug 'liuchengxu/space-vim-dark'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 Plug 'NLKNguyen/papercolor-theme'
+" Plug 'ayu-theme/ayu-vim' " or other package manager
+Plug 'ackyshake/Spacegray.vim'
 
+" go
+Plug 'fatih/vim-go', { 'do': 'GoUpdateBinaries' }
 
 " supertab
 Plug 'ervandew/supertab'
@@ -59,10 +70,13 @@ Plug 'skanehira/preview-uml.vim'
 Plug 'jiangmiao/auto-pairs'
 "vim启动页面修改
 Plug 'mhinz/vim-startify'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dgryski/vim-godef'
 Plug 'jstemmer/gotags'
-Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+" Plug 'nsf/gocode'
+" Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+Plug 'stamblerre/gocode'
 
 " git
 Plug 'junegunn/gv.vim'
@@ -71,10 +85,11 @@ Plug 'junegunn/gv.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'ryanoasis/vim-devicons'
 Plug 'Yggdroot/LeaderF'
 " snippets
 Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -82,8 +97,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
 
-" go
-Plug 'fatih/vim-go', { 'do': 'GoUpdateBinaries' }
 
 call plug#end()
 
@@ -122,30 +135,35 @@ let g:tagbar_right=1
 " let ayucolor="mirage" " for mirage version of theme
 " let ayucolor="dark"   " for dark version of theme
 
-" colorscheme PaperColor
+" colo spacegray
+" colo darcula
+
+colorscheme PaperColor
 " colorscheme two-firewatch
 " colorscheme base16-ocean
 " colorscheme gruvbox
 " gui transparent
 if has("gui_running")
-    let g:gruvbox_contrast_dark="hard"
-    " set background=dark
-    set background=light
+    set macligatures
+    " let g:gruvbox_contrast_dark="hard"
+    set background=dark
+    " set background=light
     set guioptions-=r "
     set guioptions-=b "
     set guioptions-=L "
-    "set guifont=SFMono\ Nerd\ Font:h14.5
-    set guifont=FiraCode\ Nerd\ Font\ Mono:h15
-    " set guifont=LigalexMono-MediumItalic:h14
+    " set guifont=SFMono\ Nerd\ Font:h14.5
+    " set guifont=FiraCode\ Nerd\ Font\ Mono:h13.5
+    set guifont=LigalexMono-MediumItalic:h14
     " set guifont=SpaceMono\ Nerd\ Font\ Mono:h14.5
     " set guifont=Space\ Mono\ Italic\ Nerd\ Font\ Complete\ Mono:h15
-    colorscheme darcula
+    " colorscheme gruvbox
+    " colo darcula
     set termguicolors     " enable true colors support
     set shellcmdflag=-ic
     set transparency=10
-    "set lines=50 columns=200
+   "set lines=50 columns=200
     let g:airline#extensions#tabline#enabled = 0
-    let g:lightline = { 'colorscheme': 'darculaOriginal' }
+    " let g:lightline = { 'colorscheme': 'darculaOriginal' }
 endif
 
 " Keep 3 lines when scrolling
@@ -201,7 +219,7 @@ nnoremap <silent> <leader>fs :w<CR>
 nnoremap <silent> <leader>fb :NERDTreeToggle<CR>
 
 " buffer
-nnoremap <silent> <leader>jf :%!python -c "import json,sys,collections,re; sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)))"<CR>
+nnoremap <silent> <leader>jf :%!python -c "import json,sys,collections,re;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambdam:m.group().decode(\"unicode_escape\").encode(\"utf-8\"),json.dumps(json.load(sys.stdin,object_pairs_hook=collections.OrderedDict), indent=2)))"<CR>
 nnoremap <silent> <leader>pdb :!python3 -m pdb %<CR>
 nnoremap <silent> <leader>tg :TagbarToggle<CR>
 
@@ -239,22 +257,20 @@ set noeb
 set completeopt=longest,menuone
 
 " nerdtree icons conf
-let g:webdevicons_enable = 1
-let g:webdevicons_enable_nerdtree = 1
-let g:webdevicons_enable_ctrlp = 1
-let g:tagbar_autopreview = 1
+" let g:webdevicons_enable = 1
+" let g:webdevicons_enable_nerdtree = 1
+" let g:webdevicons_enable_ctrlp = 1
+" let g:tagbar_autopreview = 1
 
 let NERDTreeIgnore=['\.pyc','\~$','\.swp', '\.DS_Store', "\idea", '\.temp', '\.git']
-" 打开 vim 文件及显示书签列表
-" let NERDTreeShowBookmarks=2
 
-" 在终端启动vim时，共享NERDTree
-" let g:nerdtree_tabs_open_on_console_startup=1
 " 打开 vim 文件及显示书签列表
 let NERDTreeShowBookmarks=2
 
 " 在终端启动vim时，共享NERDTree
 let g:nerdtree_tabs_open_on_console_startup=1
+
+
 
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
@@ -290,8 +306,11 @@ nnoremap <leader>np :GoDebugContinue<CR>
 """"""""""""""""""""""""""""""
 "Leaderf settings
 """"""""""""""""""""""""""""""
+
+" 显示字体
+let g:Lf_DevIconsFont = "SFMono Nerd Font"
 " Show icons, icons are shown by default
-let g:Lf_ShowDevIcons = 1
+let g:Lf_ShowDevIcons = 0
 " For GUI vim, the icon font can be specify like this, for example
 let g:Lf_PopupPalette = {
     \  'light': {
@@ -332,16 +351,13 @@ nnoremap <silent> <Leader>m :Leaderf mru<CR>
 "Buffer
 nnoremap <silent><nowait> sb  :<C-u>LeaderfBuffer<cr>
 
-"函数搜索（仅当前文件里）
-" nnoremap <silent><nowait> lf :<C-u>LeaderfFunction<cr>
-
 "模糊搜索，很强大的功能，迅速秒搜
 nnoremap <silent><nowait> rg :<C-u>Leaderf rg<cr>
 
 " set noswapfile
 set directory=/tmp
 
-let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="tab"
 " let g:UltiSnipsJumpForwardTrigger="<c-b>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
@@ -371,9 +387,9 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+"" Use `[c` and `]c` to navigate diagnostics
+"nmap <silent> [c <Plug>(coc-diagnostic-prev)
+"nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -381,56 +397,35 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Use K to show documentation in preview window
+"" Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
-" Show all diagnostics
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-" Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-" Use <leader>x for convert visual selected code to snippet
+"" Use <leader>x for convert visual selected code to snippet
 xmap <leader>x  <Plug>(coc-convert-snippet)
-
-let NERDTreeShowBookmarks=1
 
 " supertab
 let g:go_version_warning = 2
 let g:SuperTabRetainCompletionType = 0
 let g:SuperTabDefaultCompletionType="<C-x><C-o>"
 
-au FileType go nmap <Leader>s <Plug>(coc-implementation)
+"au FileType go nmap <Leader>s <Plug>(coc-implementation)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 au FileType go nmap <Leader>r <Plug>(go-rename)
 
 
-set completeopt=longest,menuone
-let g:go_fmt_autosave = 1
+" set completeopt=longest,menuone
+let g:go_fmt_autosave = 0
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 let g:go_fmt_command = "goimports"
 let g:airline#themes#flatlandia#palette=0
+let g:go_rename_command='gopls'  " 重命名变量
+let g:go_referrers_mode='gopls'
 
 " vim-go conf
 let g:go_highlight_functions = 1
@@ -445,7 +440,7 @@ let g:go_highlight_fields = 1
 let g:go_highlight_function_calls = 1
 
 set nu
-nohl
+
 highlight Comment ctermfg=gray guifg=#a1a3a6
 " highlight Pmenu ctermfg=2 ctermbg=3 guifg=#996666 guibg=#FFDAB9
 set cursorline
@@ -472,11 +467,10 @@ let g:lightline = {
 \ }
 
 function! LightlineGitBlame() abort
-  let blame = get(b:, 'coc_git_blame', '')
+  "let blame = get(b:, 'coc_git_blame', '')
   " return blame
   return winwidth(0) > 120 ? blame : ''
 endfunction
-set statusline^=%{get(g:,'coc_git_status','')}%{get(b:,'coc_git_status','')}%{get(b:,'coc_git_blame','')}
 
 " coc-git keymaps
 " navigate chunks of current buffer
@@ -497,3 +491,49 @@ xmap ag <Plug>(coc-git-chunk-outer)
 
 " leader cm go语言多行注释
 " leader cu 取消选中行注释
+
+" Terraform Syntastic Config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" (Optional)Remove Info(Preview) window
+set completeopt-=preview
+" set completeopt+=preview
+
+" (Optional)Hide Info(Preview) window after completions
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" (Optional) Enable terraform plan to be include in filter
+let g:syntastic_terraform_tffilter_plan = 1
+
+" (Optional) Default: 0, enable(1)/disable(0) plugin's keymapping
+let g:terraform_completion_keys = 1
+
+" (Optional) Default: 1, enable(1)/disable(0) terraform module registry completion
+let g:terraform_registry_module_completion = 0
+
+" UltiSnipsExpandTrigger 
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsExpandTrigger="//"
+
+" 代码折叠
+
+nnoremap <space> za
+
+" 各个tab之间切换
+nnoremap <leader>1 1gt <CR>
+nnoremap <leader>2 2gt <CR>
+nnoremap <leader>3 3gt <CR>
+nnoremap <leader>4 4gt <CR>
+nnoremap <leader>5 5gt <CR>
+nnoremap <leader>6 6gt <CR>
+nnoremap <leader>7 7gt <CR>
+nnoremap <leader>8 8gt <CR>
+nnoremap <leader>9 9gt <CR>
